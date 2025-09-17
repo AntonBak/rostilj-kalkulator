@@ -61,7 +61,6 @@ void dodajPaket(RostiljPaket** paketi, int* brojPaketa);
 void azurirajPaket(RostiljPaket* paketi, int brojPaketa);
 void obrisiPaket(RostiljPaket** paketi, int* brojPaketa);
 
-void prikaziVrijemeDoPraznikaRada();
 static inline void resetirajKolicineMesa(Meso* meso);
 void postaviPocetneVrijednostiMesa(Meso* meso);
 
@@ -521,7 +520,6 @@ void izracunajCijenu(Korisnici* korisnici, Meso* meso, RostiljPaket* paketi, int
     if (meso[2].qKom > 0) { printf("- %s (pojedinacno): %d grama\n", meso[2].type, meso[2].qKom); }
     if (meso[3].qKom > 0) { printf("- %s (pojedinacno): %d grama\n", meso[3].type, meso[3].qKom); }
 
-    prikaziVrijemeDoPraznikaRada();
 
     free(paketiCount);
 
@@ -540,33 +538,7 @@ void izracunajCijenu(Korisnici* korisnici, Meso* meso, RostiljPaket* paketi, int
 }
 
 
-void prikaziVrijemeDoPraznikaRada() {
-    time_t trenutnoVrijeme = time(NULL);
-    struct tm danas = *localtime(&trenutnoVrijeme);
 
-    int godina = danas.tm_year + 1900;
-    int danGodine = danas.tm_yday;
-
-    struct tm praznik = danas;
-    praznik.tm_mon = 4;
-    praznik.tm_mday = 1;
-    mktime(&praznik);
-    int danPraznika = praznik.tm_yday;
-
-    int danaDoPraznika = 0;
-    int danaUGodini = ((godina % 4 == 0 && godina % 100 != 0) || (godina % 400 == 0)) ? 366 : 365;
-
-    if (danGodine < danPraznika) {
-        danaDoPraznika = danPraznika - danGodine;
-    }
-    else {
-        danaDoPraznika = danaUGodini - danGodine + danPraznika;
-    }
-
-    printf("-------------------------------------\n");
-    printf("Do Praznika rada preostaje %d dana!\n", danaDoPraznika);
-    printf("-------------------------------------\n");
-}
 
 void postaviPocetneVrijednostiMesa(Meso* meso) {
     strcpy(meso[0].type, "Cevapcici");
